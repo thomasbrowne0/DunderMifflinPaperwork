@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DunderMifflinPaperwork.Models;
+namespace DunderMifflinPaperworkBackend.Models;
 
 public class OrderEntry
 {

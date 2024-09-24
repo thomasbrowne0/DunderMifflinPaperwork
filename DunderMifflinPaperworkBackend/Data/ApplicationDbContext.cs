@@ -1,7 +1,7 @@
-﻿using DunderMifflinPaperwork.Models;
+﻿using DunderMifflinPaperworkBackend.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DunderMifflinPaperwork.Data;
+namespace DunderMifflinPaperworkBackend.Data;
 
 public class ApplicationDbContext : DbContext
 {

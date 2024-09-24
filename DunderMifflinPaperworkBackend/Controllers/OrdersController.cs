@@ -1,9 +1,9 @@
-﻿using DunderMifflinPaperwork.Data;
-using DunderMifflinPaperwork.Models;
+﻿using DunderMifflinPaperworkBackend.Data;
+using DunderMifflinPaperworkBackend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace DunderMifflinPaperwork.Controllers;
+namespace DunderMifflinPaperworkBackend.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

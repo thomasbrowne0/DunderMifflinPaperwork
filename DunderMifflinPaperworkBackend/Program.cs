@@ -1,4 +1,4 @@
-using DunderMifflinPaperwork.Data;
+using DunderMifflinPaperworkBackend.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

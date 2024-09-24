@@ -1,4 +1,4 @@
-﻿namespace DunderMifflinPaperwork.Models;
+﻿namespace DunderMifflinPaperworkBackend.Models;
 
 public class Paper
 {

@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DunderMifflinPaperwork", "DunderMifflinPaperwork\DunderMifflinPaperwork.csproj", "{1FD2ECAD-E3E6-46BC-B0C8-EF0B09A32581}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DunderMifflinPaperworkBackend", "DunderMifflinPaperworkBackend\DunderMifflinPaperworkBackend.csproj", "{1FD2ECAD-E3E6-46BC-B0C8-EF0B09A32581}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
