@@ -17,8 +17,8 @@ public class Order
     [Range(0, double.MaxValue)]
     public double TotalAmount { get; set; }
     
-    
     public int CustomerId { get; set; }
+    
     public Customer Customer { get; set; }
     public ICollection<OrderEntry> OrderEntries { get; set; }
 }

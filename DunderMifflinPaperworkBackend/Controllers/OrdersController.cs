@@ -1,4 +1,5 @@
 ﻿using DunderMifflinPaperworkBackend.Data;
+using DunderMifflinPaperworkBackend.DTOs;
 using DunderMifflinPaperworkBackend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ public class OrdersController : ControllerBase
     public OrdersController(ApplicationDbContext context)
     {
         _context = context;
+        _context.Database.EnsureCreated();
     }
 
     [HttpGet]
@@ -23,7 +25,7 @@ public class OrdersController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Order>> CreateOrder(Order order)
+    public async Task<ActionResult<Order>> CreateOrder(PostOrderDTO dto)
     {
         if (!ModelState.IsValid)
         {
@@ -31,6 +33,15 @@ public class OrdersController : ControllerBase
         }
 
         // Validate stock availability and other business rules here
+
+        var order = new Order
+        {
+            OrderDate = dto.OrderDate,
+            DeliveryDate = dto.DeliveryDate,
+            Status = dto.Status,
+            TotalAmount = dto.TotalAmount,
+            CustomerId = dto.CustomerId
+        };
 
         _context.Orders.Add(order);
         await _context.SaveChangesAsync();
