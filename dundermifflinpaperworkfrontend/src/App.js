@@ -1,25 +1,44 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 
 function App() {
+  const [isAdmin, setIsAdmin] = useState(false);
+  const navigate = useNavigate();
+
+  const toggleRole = () => {
+    setIsAdmin(!isAdmin);
+    navigate(isAdmin ? '/customer' : '/admin');
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload. Barni.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className="App">
+        <header className="App-header">
+          <button onClick={toggleRole}>
+            Switch to {isAdmin ? 'Customer' : 'Admin'}
+          </button>
+            <p>Test</p>
+        </header>
+      </div>
   );
 }
 
-export default App;
+function Customer() {
+  return <h2>Customer Page</h2>;
+}
+
+function Admin() {
+  return <h2>Admin Page</h2>;
+}
+
+export default function AppWrapper() {
+  return (
+      <Router>
+        <Routes>
+          <Route path="/customer" element={<Customer />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/" element={<App />} />
+        </Routes>
+      </Router>
+  );
+}
