@@ -15,7 +15,7 @@ public class OrdersController : ControllerBase
     public OrdersController(ApplicationDbContext context)
     {
         _context = context;
-        _context.Database.EnsureCreated();
+        //_context.Database.EnsureCreated();
     }
 
     [HttpGet]
@@ -25,7 +25,7 @@ public class OrdersController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Order>> CreateOrder(PostOrderDTO dto)
+    public ActionResult<Order> CreateOrder(PostOrderDTO dto)
     {
         if (!ModelState.IsValid)
         {
@@ -33,18 +33,25 @@ public class OrdersController : ControllerBase
         }
 
         // Validate stock availability and other business rules here
-
+        var customer = new Customer();
+        customer.Name = "John Doe";
+        customer.Address = "123 Main St";
+        customer.Email = "easv@easv.dk";
+        customer.Phone = "12345678";
+        _context.Customers.Add(customer);
+        _context.SaveChanges();
         var order = new Order
         {
             OrderDate = dto.OrderDate,
             DeliveryDate = dto.DeliveryDate,
             Status = dto.Status,
             TotalAmount = dto.TotalAmount,
-            CustomerId = dto.CustomerId
+            CustomerId = customer.Id
         };
-
-        _context.Orders.Add(order);
-        await _context.SaveChangesAsync();
+        
+        
+        // _context.Orders.Add(order);
+        //await _context.SaveChangesAsync();
 
         return CreatedAtAction(nameof(GetOrders), new { id = order.Id }, order);
     }
