@@ -1,4 +1,5 @@
 ﻿import { atom } from 'jotai';
+import {Api} from './Api.ts';
 
 export interface Order {
     id: number;
@@ -13,11 +14,12 @@ export interface Customer {
     email: string;
 }
 
+export const MyApi = new Api('http://localhost:5088/api');
 export const ordersAtom = atom<Order[]>([]);
 export const customersAtom = atom<Customer[]>([]);
 
 export const fetchOrders = async (): Promise<Order[]> => {
-    const response = await fetch('http://localhost:5088/api/orders');
+    const response = await fetch(MyApi.url + '/Order');
     return response.json();
 };
 

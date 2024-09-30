@@ -22,7 +22,7 @@ namespace DunderMifflinPaperworkBackend.Controllers
             //_context.Database.EnsureCreated();
         }
 
-        [HttpGet]
+        [HttpGet()]
         public ActionResult<IEnumerable<Customer>> GetCustomers()
         {
             var allcustomers = _context.Customers.ToList();
