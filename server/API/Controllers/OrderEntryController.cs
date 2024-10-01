@@ -1,6 +1,14 @@
-﻿namespace API.Controllers;
+﻿using DataAccess;
+using DataAccess.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-public class OrderEntryController
+namespace API.Controllers;
+
+
+[ApiController]
+[Route("[controller]")]
+public class OrderEntryController(DunderMifflinContext context) : ControllerBase
 {
     
 }
