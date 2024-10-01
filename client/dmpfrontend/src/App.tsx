@@ -1,21 +1,17 @@
 import React from 'react';
-import { Link, Route, Routes } from 'react-router-dom';
-import Orders from './components/Orders';
-import Customers from './components/Customers';
+import { Route, Routes } from 'react-router-dom';
+import LandingPage from './pages/LandingPage';
+import CustomerPage from './pages/CustomerPage';
+import AdminPage from './pages/AdminPage'; // Import AdminPage
 
 const App: React.FC = () => {
     return (
-        <div>
-            <nav>
-                <Link to="/orders">Orders</Link>
-                <Link to="/customers">Customers</Link>
-            </nav>
-            <Routes>
-                <Route path="/orders" element={<Orders />} />
-                <Route path="/customers" element={<Customers />} />
-            </Routes>
-        </div>
+        <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/admin" element={<AdminPage />} /> {/* Use AdminPage */}
+            <Route path="/customer" element={<CustomerPage />} />
+        </Routes>
     );
-}
+};
 
 export default App;
