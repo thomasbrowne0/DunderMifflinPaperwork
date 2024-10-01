@@ -15,5 +15,18 @@ namespace API.Controllers;
         {
             return await context.Customers.ToListAsync();
         }
+        
+        // Get Customer by ID
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Customer>> GetCustomer(int id)
+        {
+            var customer = await context.Customers.FindAsync(id);
 
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return customer;
+        }
     }
