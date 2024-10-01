@@ -2,3 +2,25 @@
 GET http://localhost:5158/Customer
 ### Get Customer by ID
 GET http://localhost:5158/Customer/3
+### Get Papers
+GET http://localhost:5158/Paper
+### Get Paper by ID
+GET http://localhost:5158/Paper/1
+
+### Create Paper
+POST http://localhost:5158/Paper
+Content-Type: application/json
+
+{
+  "name": "Sample Paper",
+  "discontinued": false,
+  "stock": 100,
+  "price": 9.99
+}
+
+### Update Paper status
+PUT http://localhost:5158/Paper/2/status?discontinued=true
+Content-Type: application/json
+### Add Stock to Paper
+PUT http://localhost:5158/Paper/2/addstock?stock=10
+Content-Type: application/json
