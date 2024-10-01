@@ -1,0 +1,2 @@
+﻿### Get Customers
+GET http://localhost:5158/Customer

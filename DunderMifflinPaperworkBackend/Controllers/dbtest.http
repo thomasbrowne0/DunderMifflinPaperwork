@@ -1,0 +1,2 @@
+﻿### get all orders
+GET http://localhost:5088/api/Orders

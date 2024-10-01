@@ -21,7 +21,9 @@ public class OrdersController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
     {
-        return await _context.Orders.Include(o => o.OrderEntries).ToListAsync();
+        return await _context.Orders.Include(o => o.OrderEntries)
+            .Include(o => o.Customer).ToListAsync();
+        
     }
 
     [HttpPost]

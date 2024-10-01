@@ -8,3 +8,8 @@ export const fetchOrders = async (): Promise<Order[]> => {
     const response = await axios.get(`${apiBaseUrl}/api/Order`);
     return response.data();
 };
+
+export const createOrder = async (order: Order): Promise<Order> => {
+    const response = await axios.post(`${apiBaseUrl}/api/Order`, order);
+    return response.data();
+}

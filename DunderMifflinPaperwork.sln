@@ -2,6 +2,14 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DunderMifflinPaperworkBackend", "DunderMifflinPaperworkBackend\DunderMifflinPaperworkBackend.csproj", "{1FD2ECAD-E3E6-46BC-B0C8-EF0B09A32581}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "server\DataAccess\DataAccess.csproj", "{D4443A2F-10BE-4094-910A-1A71966B9697}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "server\API\API.csproj", "{5AC64341-0221-479B-8AD5-6F51EC74C36E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "server\Services\Services.csproj", "{C9C4677B-E2D5-41FB-B484-BDD35FEBD304}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DundlerMifflinTest", "server\DundlerMifflinTest\DundlerMifflinTest.csproj", "{C78B7B87-C00E-4B44-B328-451B7EDA1DBD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +20,21 @@ Global
 		{1FD2ECAD-E3E6-46BC-B0C8-EF0B09A32581}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FD2ECAD-E3E6-46BC-B0C8-EF0B09A32581}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FD2ECAD-E3E6-46BC-B0C8-EF0B09A32581}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4443A2F-10BE-4094-910A-1A71966B9697}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4443A2F-10BE-4094-910A-1A71966B9697}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4443A2F-10BE-4094-910A-1A71966B9697}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4443A2F-10BE-4094-910A-1A71966B9697}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AC64341-0221-479B-8AD5-6F51EC74C36E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AC64341-0221-479B-8AD5-6F51EC74C36E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AC64341-0221-479B-8AD5-6F51EC74C36E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AC64341-0221-479B-8AD5-6F51EC74C36E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9C4677B-E2D5-41FB-B484-BDD35FEBD304}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9C4677B-E2D5-41FB-B484-BDD35FEBD304}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9C4677B-E2D5-41FB-B484-BDD35FEBD304}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9C4677B-E2D5-41FB-B484-BDD35FEBD304}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C78B7B87-C00E-4B44-B328-451B7EDA1DBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C78B7B87-C00E-4B44-B328-451B7EDA1DBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C78B7B87-C00E-4B44-B328-451B7EDA1DBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C78B7B87-C00E-4B44-B328-451B7EDA1DBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
