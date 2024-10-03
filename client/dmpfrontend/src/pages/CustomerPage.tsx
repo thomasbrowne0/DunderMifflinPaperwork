@@ -3,6 +3,7 @@ import { useAtom } from 'jotai';
 import { customersAtom } from '../atoms/Atoms';
 import { fetchCustomers } from '../services/CustomerService';
 import NavBar from './components/NavBar';
+import { Link } from 'react-router-dom';
 
 const CustomerPage: React.FC = () => {
     const [customers, setCustomers] = useAtom(customersAtom);
@@ -23,7 +24,9 @@ const CustomerPage: React.FC = () => {
             <p>Welcome to the Customer Page!</p>
             <ul>
                 {customers.map((customer: any) => (
-                    <li key={customer.id}>{customer.name}</li>
+                    <li key={customer.id}>
+                        <Link to={`/customer/${customer.id}`}>{customer.name}</Link>
+                    </li>
                 ))}
             </ul>
         </div>

@@ -20,6 +20,7 @@ namespace API.Controllers;
         [HttpGet("{id}")]
         public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
+            
             var customer = await context.Customers.FindAsync(id);
 
             if (customer == null)
