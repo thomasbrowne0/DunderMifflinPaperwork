@@ -1,15 +1,30 @@
 ﻿import React, { useState } from 'react';
+import { useAtom } from 'jotai';
+import { papersAtom } from '../../atoms/Atoms';
+import { createPaper } from '../../services/PaperService';
 
 const CreateProductForm: React.FC = () => {
     const [paperName, setPaperName] = useState('');
     const [discontinued, setDiscontinued] = useState(false);
     const [stock, setStock] = useState(0);
     const [price, setPrice] = useState(0);
+    const [, setPapers] = useAtom(papersAtom);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Handle form submission logic here
-        console.log({ paperName, discontinued, stock, price });
+        try {
+            const newPaper = {
+                name: paperName,
+                discontinued,
+                stock,
+                price
+            };
+            const createdPaper = await createPaper(newPaper);
+            setPapers((prevPapers) => [...prevPapers, createdPaper]);
+            console.log('Paper created successfully');
+        } catch (error) {
+            console.error('Error creating paper:', error);
+        }
     };
 
     return (
