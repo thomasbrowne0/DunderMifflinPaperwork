@@ -5,9 +5,9 @@ import { customersAtom } from '../atoms/Atoms';
 import NavBar from './components/NavBar';
 
 const CustomerDetailPage: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
+    const { id } = useParams<{ id?: string }>();
     const [customers] = useAtom(customersAtom);
-    const customer = customers.find((customer: any) => customer.id === parseInt(id));
+    const customer = customers.find((customer: any) => customer.id === parseInt(id || '', 10));
 
     if (!customer) {
         return <div>Customer not found</div>;
