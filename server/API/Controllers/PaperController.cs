@@ -65,9 +65,9 @@ public class PaperController(DunderMifflinContext context) : ControllerBase
         return CreatedAtAction(nameof(GetPaper), new { id = paper.Id }, paper);
     }
     
-    // Update Paper status
-    [HttpPut("{id}/status")]
-    public async Task<IActionResult> UpdatePaperStatus(int id)
+    // Update Paper discontinued status and stock
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdatePaper(int id, [FromBody] UpdatePaperRequest request)
     {
         var paper = await context.Papers.FindAsync(id);
 
@@ -76,49 +76,11 @@ public class PaperController(DunderMifflinContext context) : ControllerBase
             return NotFound();
         }
 
-        paper.Discontinued = !paper.Discontinued;
+        paper.Discontinued = request.Discontinued;
+        paper.Stock = request.Stock;
+
         await context.SaveChangesAsync();
 
         return NoContent();
     }
-    
-    
-    // Add a stock to a Paper
-    [HttpPut("{id}/addstock")]
-    public async Task<IActionResult> AddStock(int id, [FromQuery] int stock)
-    {
-        var paper = await context.Papers.FindAsync(id);
-
-        if (paper == null)
-        {
-            return NotFound();
-        }
-
-        paper.Stock += stock;
-        await context.SaveChangesAsync();
-
-        return NoContent();
-    }
-    
-    // [HttpPost]
-    // public async Task<ActionResult<Paper>> CreatePaper(Paper paper, [FromQuery] string propertyName)
-    // {
-    //     context.Papers.Add(paper);
-    //     await context.SaveChangesAsync();
-    //
-    //     if (!string.IsNullOrEmpty(propertyName))
-    //     {
-    //         var property = new Property { PropertyName = propertyName };
-    //         context.Properties.Add(property);
-    //         await context.SaveChangesAsync();
-    //
-    //         var paperProperty = new PaperProperty { PaperId = paper.Id, PropertyId = property.Id };
-    //         context.PaperProperties.Add(paperProperty);
-    //         await context.SaveChangesAsync();
-    //     }
-    //
-    //     return CreatedAtAction(nameof(GetPaper), new { id = paper.Id }, paper);
-    // }
-    
-    
 }

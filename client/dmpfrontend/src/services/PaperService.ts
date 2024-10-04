@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API_URL = 'http://localhost:5158/Paper';
-const PAPER_PROPERTY_API_URL = 'http://localhost:5158/PaperProperty';
+// const PAPER_PROPERTY_API_URL = 'http://localhost:5158/PaperProperty';
 
 export const fetchPapers = async () => {
     const response = await axios.get(API_URL);
@@ -18,12 +18,17 @@ export const createPaper = async (request: { name: string; discontinued: boolean
     return response.data;
 };
 
-export const createPaperProperty = async (paperProperty: { paperId: number; propertyId: number }) => {
-    const response = await axios.post(PAPER_PROPERTY_API_URL, paperProperty);
-    return response.data;
-};
+// export const createPaperProperty = async (paperProperty: { paperId: number; propertyId: number }) => {
+//     const response = await axios.post(PAPER_PROPERTY_API_URL, paperProperty);
+//     return response.data;
+// };
+//
+// export const fetchPaperProperty = async (paperId: number, propertyId: number) => {
+//     const response = await axios.get(`${PAPER_PROPERTY_API_URL}/${paperId}/${propertyId}`);
+//     return response.data;
+// };
 
-export const fetchPaperProperty = async (paperId: number, propertyId: number) => {
-    const response = await axios.get(`${PAPER_PROPERTY_API_URL}/${paperId}/${propertyId}`);
+export const updatePaper = async (id: number, updatedPaper: { discontinued: boolean, stock: number }) => {
+    const response = await axios.put(`${API_URL}/${id}`, updatedPaper);
     return response.data;
 };

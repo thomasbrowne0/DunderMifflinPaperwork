@@ -1,5 +1,6 @@
 ﻿import React, { useEffect } from 'react';
 import { useAtom } from 'jotai';
+import { Link } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import DropdownMenu from './components/DropdownMenu';
 import CreateProductForm from './components/CreateProductForm';
@@ -29,7 +30,9 @@ const AdminPage: React.FC = () => {
             <h1>All Papers</h1>
             <ul>
                 {papers.map((paper: any) => (
-                    <li key={paper.id}>{paper.name}</li>
+                    <li key={paper.id}>
+                        <Link to={`/paper/${paper.id}`}>{paper.name}</Link>
+                    </li>
                 ))}
             </ul>
             <h1>Admin Page</h1>
