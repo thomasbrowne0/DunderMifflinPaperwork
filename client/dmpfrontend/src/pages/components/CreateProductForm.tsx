@@ -2,22 +2,36 @@
 import { useAtom } from 'jotai';
 import { papersAtom } from '../../atoms/Atoms';
 import { createPaper } from '../../services/PaperService';
+import DropdownMenu from './DropdownMenu';
 
 const CreateProductForm: React.FC = () => {
     const [paperName, setPaperName] = useState('');
     const [discontinued, setDiscontinued] = useState(false);
     const [stock, setStock] = useState(0);
     const [price, setPrice] = useState(0);
+    const [customProperty, setCustomProperty] = useState('');
+    const [isCustomPropertyOpen, setIsCustomPropertyOpen] = useState(false);
     const [, setPapers] = useAtom(papersAtom);
+    const [error, setError] = useState('');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (paperName.trim() === '') {
+            setError('Paper name cannot be empty');
+            return;
+        }
+        if (isCustomPropertyOpen && customProperty.trim() === '') {
+            setError('Custom property name cannot be empty');
+            return;
+        }
+        setError('');
         try {
             const newPaper = {
                 name: paperName,
                 discontinued,
                 stock,
-                price
+                price,
+                customProperty
             };
             const createdPaper = await createPaper(newPaper);
             // @ts-ignore
@@ -37,6 +51,7 @@ const CreateProductForm: React.FC = () => {
                     value={paperName}
                     onChange={(e) => setPaperName(e.target.value)}
                 />
+                {error && <p style={{ color: 'red' }}>{error}</p>}
             </div>
             <div>
                 <label>Discontinued:</label>
@@ -62,6 +77,20 @@ const CreateProductForm: React.FC = () => {
                     onChange={(e) => setPrice(Number(e.target.value))}
                 />
             </div>
+            <DropdownMenu
+                title="Set custom property?"
+                className="darker-dropdown"
+                onToggle={(isOpen) => setIsCustomPropertyOpen(isOpen)}
+            >
+                <div>
+                    <label>Custom Property Name:</label>
+                    <input
+                        type="text"
+                        value={customProperty}
+                        onChange={(e) => setCustomProperty(e.target.value)}
+                    />
+                </div>
+            </DropdownMenu>
             <button type="submit">Create Product</button>
         </form>
     );

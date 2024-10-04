@@ -1,6 +1,13 @@
-﻿namespace API.Controllers;
+﻿using DataAccess;
+using DataAccess.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-public class PropertyController
+namespace API.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class PropertyController(DunderMifflinContext context) : ControllerBase
 {
     
 }
