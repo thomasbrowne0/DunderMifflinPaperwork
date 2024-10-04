@@ -5,6 +5,7 @@ import DropdownMenu from './components/DropdownMenu';
 import CreateProductForm from './components/CreateProductForm';
 import { fetchPapers } from '../services/PaperService';
 import { papersAtom } from '../atoms/Atoms';
+import '../index.css'; // Import the CSS file
 
 const AdminPage: React.FC = () => {
     const [papers, setPapers] = useAtom(papersAtom);
@@ -33,7 +34,7 @@ const AdminPage: React.FC = () => {
             </ul>
             <h1>Admin Page</h1>
             <p>Welcome to the Admin Page!</p>
-            <DropdownMenu title="Create Product">
+            <DropdownMenu title="Create Product?" className="darker-dropdown">
                 <CreateProductForm />
             </DropdownMenu>
             {/* Add more buttons and dropdown menus as needed */}

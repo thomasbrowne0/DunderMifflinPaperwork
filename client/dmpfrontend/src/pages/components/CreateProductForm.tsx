@@ -20,6 +20,7 @@ const CreateProductForm: React.FC = () => {
                 price
             };
             const createdPaper = await createPaper(newPaper);
+            // @ts-ignore
             setPapers((prevPapers) => [...prevPapers, createdPaper]);
             console.log('Paper created successfully');
         } catch (error) {

@@ -37,6 +37,13 @@ h1 {
   line-height: 1.1;
 }
 
+.darker-dropdown {
+  background-color: #333; /* Darker background color */
+  color: #fff; /* White text color for better contrast */
+  padding: 10px;
+  border-radius: 5px;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
