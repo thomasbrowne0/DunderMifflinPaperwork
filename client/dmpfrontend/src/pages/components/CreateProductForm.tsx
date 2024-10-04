@@ -20,20 +20,18 @@ const CreateProductForm: React.FC = () => {
             setError('Paper name cannot be empty');
             return;
         }
-        if (isCustomPropertyOpen && customProperty.trim() === '') {
-            setError('Custom property name cannot be empty');
-            return;
-        }
         setError('');
         try {
-            const newPaper = {
+            const createPaperRequest = {
                 name: paperName,
                 discontinued,
                 stock,
                 price,
-                customProperty
-            };
-            const createdPaper = await createPaper(newPaper);
+            } as any;
+            if (isCustomPropertyOpen && customProperty.trim() !== '') {
+                createPaperRequest.propertyName = customProperty;
+            }
+            const createdPaper = await createPaper(createPaperRequest);
             // @ts-ignore
             setPapers((prevPapers) => [...prevPapers, createdPaper]);
             console.log('Paper created successfully');

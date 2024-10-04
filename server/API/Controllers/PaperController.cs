@@ -2,6 +2,7 @@
 using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Services.TransferModels.Requests;
 
 namespace API.Controllers;
 
@@ -34,11 +35,33 @@ public class PaperController(DunderMifflinContext context) : ControllerBase
     
     // Create a new Paper
     [HttpPost]
-    public async Task<ActionResult<Paper>> CreatePaper(Paper paper)
+    public async Task<ActionResult<Paper>> CreatePaper(PostPaperRequest request)
     {
+        // Map paper
+        var paper = new Paper
+        {
+            Name = request.Name,
+            Discontinued = request.Discontinued,
+            Stock = request.Stock,
+            Price = request.Price
+        };
+        
         context.Papers.Add(paper);
         await context.SaveChangesAsync();
 
+        // Check if PropertyName is provided
+        if (!string.IsNullOrEmpty(request.PropertyName))
+        {
+            // Create the Property
+            var property = new Property { PropertyName = request.PropertyName };
+            context.Properties.Add(property);
+            await context.SaveChangesAsync();
+        }
+
+        // context.PaperProperties.Add(new PaperProperty { PaperId = paper.Id, PropertyId = property.Id });
+
+
+        //TODO: Maybe return back properties in the Response object as well as the paper
         return CreatedAtAction(nameof(GetPaper), new { id = paper.Id }, paper);
     }
     
@@ -76,4 +99,26 @@ public class PaperController(DunderMifflinContext context) : ControllerBase
 
         return NoContent();
     }
+    
+    // [HttpPost]
+    // public async Task<ActionResult<Paper>> CreatePaper(Paper paper, [FromQuery] string propertyName)
+    // {
+    //     context.Papers.Add(paper);
+    //     await context.SaveChangesAsync();
+    //
+    //     if (!string.IsNullOrEmpty(propertyName))
+    //     {
+    //         var property = new Property { PropertyName = propertyName };
+    //         context.Properties.Add(property);
+    //         await context.SaveChangesAsync();
+    //
+    //         var paperProperty = new PaperProperty { PaperId = paper.Id, PropertyId = property.Id };
+    //         context.PaperProperties.Add(paperProperty);
+    //         await context.SaveChangesAsync();
+    //     }
+    //
+    //     return CreatedAtAction(nameof(GetPaper), new { id = paper.Id }, paper);
+    // }
+    
+    
 }

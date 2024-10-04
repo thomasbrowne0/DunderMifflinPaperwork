@@ -1,5 +1,7 @@
 ﻿### Get Customers
 GET http://localhost:5158/Customer
+
+
 ### Get Customer by ID
 GET http://localhost:5158/Customer/3
 ### Get Papers
