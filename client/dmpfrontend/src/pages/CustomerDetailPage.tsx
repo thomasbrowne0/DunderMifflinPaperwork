@@ -1,15 +1,19 @@
 ﻿import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAtom } from 'jotai';
-import { customersAtom } from '../atoms/Atoms';
+import { customersAtom, papersAtom } from '../atoms/Atoms';
 import NavBar from './components/NavBar';
+import DropdownMenu from './components/DropdownMenu';
 import { fetchCustomerOrders } from '../services/OrderService';
+import { fetchPapers } from '../services/PaperService';
 
 const CustomerDetailPage: React.FC = () => {
     const { id } = useParams<{ id?: string }>();
     const [customers] = useAtom(customersAtom);
+    const [papers, setPapers] = useAtom(papersAtom);
     const customer = customers.find((customer: any) => customer.id === parseInt(id || '', 10));
     const [orders, setOrders] = useState([]);
+    const [basket, setBasket] = useState<string[]>([]);
 
     useEffect(() => {
         const getOrders = async () => {
@@ -20,6 +24,23 @@ const CustomerDetailPage: React.FC = () => {
         };
         getOrders();
     }, [id]);
+
+    useEffect(() => {
+        const getPapers = async () => {
+            try {
+                const data = await fetchPapers();
+                setPapers(data);
+            } catch (error) {
+                console.error('Error fetching papers:', error);
+            }
+        };
+
+        getPapers();
+    }, [setPapers]);
+
+    const addToBasket = (paperName: string) => {
+        setBasket([...basket, paperName]);
+    };
 
     if (!customer) {
         return <div>Customer not found</div>;
@@ -47,6 +68,21 @@ const CustomerDetailPage: React.FC = () => {
             ) : (
                 <p>No orders found for this customer.</p>
             )}
+            <DropdownMenu title="View Papers" className="darker-dropdown">
+                <ul>
+                    {papers.map((paper: any) => (
+                        <li key={paper.id}>
+                            {paper.name} <button onClick={() => addToBasket(paper.name)}>+</button>
+                        </li>
+                    ))}
+                </ul>
+            </DropdownMenu>
+            <h2>Basket</h2>
+            <ul>
+                {basket.map((paperName, index) => (
+                    <li key={index}>{paperName}</li>
+                ))}
+            </ul>
         </div>
     );
 };
