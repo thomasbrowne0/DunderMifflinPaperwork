@@ -13,7 +13,8 @@ const CustomerDetailPage: React.FC = () => {
     const [papers, setPapers] = useAtom(papersAtom);
     const customer = customers.find((customer: any) => customer.id === parseInt(id || '', 10));
     const [orders, setOrders] = useState([]);
-    const [basket, setBasket] = useState<string[]>([]);
+    const [basket, setBasket] = useState<{ name: string, price: number }[]>([]);
+    const [totalAmount, setTotalAmount] = useState(0);
 
     useEffect(() => {
         const getOrders = async () => {
@@ -38,8 +39,9 @@ const CustomerDetailPage: React.FC = () => {
         getPapers();
     }, [setPapers]);
 
-    const addToBasket = (paperName: string) => {
-        setBasket([...basket, paperName]);
+    const addToBasket = (paper: { name: string, price: number }) => {
+        setBasket([...basket, paper]);
+        setTotalAmount(totalAmount + paper.price);
     };
 
     if (!customer) {
@@ -72,17 +74,18 @@ const CustomerDetailPage: React.FC = () => {
                 <ul>
                     {papers.map((paper: any) => (
                         <li key={paper.id}>
-                            {paper.name} <button onClick={() => addToBasket(paper.name)}>+</button>
+                            {paper.name} <button onClick={() => addToBasket({ name: paper.name, price: paper.price })}>+</button>
                         </li>
                     ))}
                 </ul>
             </DropdownMenu>
             <h2>Basket</h2>
             <ul>
-                {basket.map((paperName, index) => (
-                    <li key={index}>{paperName}</li>
+                {basket.map((paper, index) => (
+                    <li key={index}>{paper.name}</li>
                 ))}
             </ul>
+            <p>Total Amount: ${totalAmount.toFixed(2)}</p>
         </div>
     );
 };
