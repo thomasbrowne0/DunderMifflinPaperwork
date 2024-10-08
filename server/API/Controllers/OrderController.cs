@@ -2,6 +2,7 @@
 using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Services.TransferModels.Response;
 
 namespace API.Controllers;
 
@@ -31,18 +32,18 @@ public class OrderController(DunderMifflinContext context) : ControllerBase
     }
     
     // Create a new Order with multiple OrderEntries
-    [HttpPost]
-    public async Task<ActionResult<Order>> CreateOrder(Order order)
-    {
-        context.Orders.Add(order);
-        await context.SaveChangesAsync();
-
-        return CreatedAtAction(nameof(GetOrder), new { id = order.Id }, order);
-    }
+    // [HttpPost]
+    // public async Task<ActionResult<Order>> CreateOrder(Order order)
+    // {
+    //     context.Orders.Add(order);
+    //     await context.SaveChangesAsync();
+    //
+    //     return CreatedAtAction(nameof(GetOrder), new { id = order.Id }, order);
+    // }
     
     // View Order history of a Customer
     [HttpGet("customer/{id}")]
-    public async Task<ActionResult<IEnumerable<Order>>> GetCustomerOrders(int id)
+    public async Task<ActionResult<IEnumerable<GetCustomerOrdersDTO>>> GetCustomerOrders(int id)
     {
         var customer = await context.Customers.FindAsync(id);
 
@@ -51,7 +52,18 @@ public class OrderController(DunderMifflinContext context) : ControllerBase
             return NotFound();
         }
 
-        return await context.Orders.Where(o => o.CustomerId == id).ToListAsync();
+        var orders = await context.Orders
+            .Where(o => o.CustomerId == id)
+            .Select(o => new GetCustomerOrdersDTO
+            {
+                OrderDate = o.OrderDate, // Assuming OrderDate is already DateTime
+                DeliveryDate = o.DeliveryDate.HasValue ? o.DeliveryDate.Value.ToDateTime(TimeOnly.MinValue) : (DateTime?)null,
+                Status = o.Status,
+                TotalAmount = o.TotalAmount
+            })
+            .ToListAsync();
+
+        return orders;
     }
     
     // View Order history of every Customer
