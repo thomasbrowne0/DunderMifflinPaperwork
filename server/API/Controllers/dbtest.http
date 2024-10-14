@@ -1,15 +1,4 @@
-﻿### Get Customers
-GET http://localhost:5158/Customer
-
-
-### Get Customer by ID
-GET http://localhost:5158/Customer/3
-### Get Papers
-GET http://localhost:5158/Paper
-### Get Paper by ID
-GET http://localhost:5158/Paper/1
-
-### Create Paper
+﻿### Create Paper
 POST http://localhost:5158/Paper
 Content-Type: application/json
 
@@ -20,9 +9,28 @@ Content-Type: application/json
   "price": 9.99
 }
 
+> {%
+    client.test("Request is successful", function() {
+        client.assert(response.status === 201, "Expected status code to be 201");
+    });
+%}
+
 ### Update Paper status
 PUT http://localhost:5158/Paper/2/status?discontinued=true
 Content-Type: application/json
+
+> {%
+    client.test("Request is successful", function() {
+        client.assert(response.status === 200, "Expected status code to be 200");
+    });
+%}
+
 ### Add Stock to Paper
 PUT http://localhost:5158/Paper/2/addstock?stock=10
 Content-Type: application/json
+
+> {%
+    client.test("Request is successful", function() {
+        client.assert(response.status === 200, "Expected status code to be 200");
+    });
+%}
