@@ -1,21 +1,21 @@
-﻿import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAtom } from 'jotai';
-import { customersAtom, papersAtom } from '../atoms/Atoms';
+import { customersAtom, papersAtom, ordersAtom, basketAtom, totalAmountAtom, quantitiesAtom } from '../atoms/Atoms';
 import NavBar from './components/NavBar';
 import DropdownMenu from './components/DropdownMenu';
-import { fetchCustomerOrders } from '../services/OrderService';
+import { fetchCustomerOrders, createOrder, createOrderEntry } from '../services/OrderService';
 import { fetchPapers } from '../services/PaperService';
 
 const CustomerDetailPage: React.FC = () => {
     const { id } = useParams<{ id?: string }>();
     const [customers] = useAtom(customersAtom);
     const [papers, setPapers] = useAtom(papersAtom);
+    const [orders, setOrders] = useAtom(ordersAtom);
+    const [basket, setBasket] = useAtom(basketAtom);
+    const [totalAmount, setTotalAmount] = useAtom(totalAmountAtom);
+    const [quantities, setQuantities] = useAtom(quantitiesAtom);
     const customer = customers.find((customer: any) => customer.id === parseInt(id || '', 10));
-    const [orders, setOrders] = useState([]);
-    const [basket, setBasket] = useState<{ name: string, price: number, quantity: number }[]>([]);
-    const [totalAmount, setTotalAmount] = useState(0);
-    const [quantities, setQuantities] = useState<{ [key: number]: number }>({});
 
     useEffect(() => {
         const getOrders = async () => {
@@ -25,7 +25,7 @@ const CustomerDetailPage: React.FC = () => {
             }
         };
         getOrders();
-    }, [id]);
+    }, [id, setOrders]);
 
     useEffect(() => {
         const getPapers = async () => {
@@ -40,8 +40,8 @@ const CustomerDetailPage: React.FC = () => {
         getPapers();
     }, [setPapers]);
 
-    const addToBasket = (paper: { name: string, price: number }, quantity: number) => {
-        const existingPaperIndex = basket.findIndex(item => item.name === paper.name);
+    const addToBasket = (paper: { id: number, name: string, price: number }, quantity: number) => {
+        const existingPaperIndex = basket.findIndex(item => item.id === paper.id);
         if (existingPaperIndex !== -1) {
             const updatedBasket = [...basket];
             updatedBasket[existingPaperIndex].quantity += quantity;
@@ -54,6 +54,34 @@ const CustomerDetailPage: React.FC = () => {
 
     const handleQuantityChange = (paperId: number, quantity: number) => {
         setQuantities({ ...quantities, [paperId]: quantity });
+    };
+
+    const handleCreateOrder = async () => {
+        if (!customer) return;
+
+        const order = {
+            customerId: customer.id,
+            orderDate: new Date().toISOString(),
+            status: 'pending',
+            totalAmount
+        };
+
+        try {
+            const createdOrder = await createOrder(order);
+            const orderEntries = basket.map(item => ({
+                orderId: createdOrder.id,
+                productId: item.id,
+                quantity: item.quantity
+            }));
+
+            await Promise.all(orderEntries.map(entry => createOrderEntry(entry)));
+
+            setBasket([]);
+            setTotalAmount(0);
+            alert('Order created successfully!');
+        } catch (error) {
+            alert('Failed to create order.');
+        }
     };
 
     if (!customer) {
@@ -93,7 +121,7 @@ const CustomerDetailPage: React.FC = () => {
                                 onChange={(e) => handleQuantityChange(paper.id, parseInt(e.target.value, 10))}
                                 min="1"
                             />
-                            <button onClick={() => addToBasket({ name: paper.name, price: paper.price }, quantities[paper.id] || 1)}>+</button>
+                            <button onClick={() => addToBasket({ id: paper.id, name: paper.name, price: paper.price }, quantities[paper.id] || 1)}>+</button>
                         </li>
                     ))}
                 </ul>
@@ -105,6 +133,7 @@ const CustomerDetailPage: React.FC = () => {
                 ))}
             </ul>
             <p>Total Amount: ${totalAmount.toFixed(2)}</p>
+            <button onClick={handleCreateOrder}>Purchase</button>
         </div>
     );
 };
