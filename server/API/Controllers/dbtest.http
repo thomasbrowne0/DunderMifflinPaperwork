@@ -15,22 +15,17 @@ Content-Type: application/json
     });
 %}
 
-### Update Paper status
-PUT http://localhost:5158/Paper/2/status?discontinued=true
+### Update Paper status or/add stock
+PUT http://localhost:5158/Paper/2
 Content-Type: application/json
+
+{
+    "discontinued": true,
+    "stock": 100
+}
 
 > {%
     client.test("Request is successful", function() {
-        client.assert(response.status === 200, "Expected status code to be 200");
-    });
-%}
-
-### Add Stock to Paper
-PUT http://localhost:5158/Paper/2/addstock?stock=10
-Content-Type: application/json
-
-> {%
-    client.test("Request is successful", function() {
-        client.assert(response.status === 200, "Expected status code to be 200");
+        client.assert(response.status === 204, "Expected status code to be 200");
     });
 %}
