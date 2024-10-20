@@ -7,7 +7,8 @@ export const customerSelectedAtom = atom(null);
 // Paper atom
 export const papersAtom = atom([]);
 
-// Order atom
+// Orders atom
+export const allOrdersAtom = atom([]);
 export const ordersAtom = atom([]);
 export const basketAtom = atom<{ id: number, name: string, price: number, quantity: number }[]>([]);
 export const totalAmountAtom = atom(0);

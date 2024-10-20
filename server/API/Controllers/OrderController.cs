@@ -66,11 +66,32 @@ public class OrderController(DunderMifflinContext context) : ControllerBase
         return orders;
     }
     
-    // View Order history of every Customer
     [HttpGet("history")]
-    public async Task<ActionResult<IEnumerable<Customer>>> GetOrderHistory()
+    public async Task<ActionResult<IEnumerable<GetCustomerOrdersDTO>>> GetOrderHistory()
     {
-        return await context.Customers.Include(c => c.Orders).ToListAsync();
+        try
+        {
+            var orders = await context.Orders
+                .Include(o => o.Customer)
+                .Select(o => new GetCustomerOrdersDTO
+                {
+                    OrderDate = o.OrderDate,
+                    DeliveryDate = o.DeliveryDate.HasValue ? o.DeliveryDate.Value.ToDateTime(TimeOnly.MinValue) : (DateTime?)null,
+                    Status = o.Status,
+                    TotalAmount = o.TotalAmount
+                })
+                .ToListAsync();
+
+            return Ok(orders);
+        }
+        catch (Exception ex)
+        {
+            // Log the exception (you can use a logging framework)
+            Console.Error.WriteLine($"Error fetching order history: {ex.Message}");
+
+            // Return a 500 Internal Server Error with a meaningful message
+            return StatusCode(500, "An error occurred while fetching the order history.");
+        }
     }
     
     // Update Order status

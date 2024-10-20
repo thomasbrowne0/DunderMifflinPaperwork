@@ -16,3 +16,8 @@ export const createOrder = async (order: any) => {
 export const createOrderEntry = async (orderEntry: any) => {
     await axios.post(ORDER_ENTRY_URL, orderEntry);
 };
+
+export const fetchAllOrders = async () => {
+    const response = await axios.get(`${API_URL}/history`);
+    return response.data;
+};

@@ -5,11 +5,13 @@ import NavBar from './components/NavBar';
 import DropdownMenu from './components/DropdownMenu';
 import CreateProductForm from './components/CreateProductForm';
 import { fetchPapers } from '../services/PaperService';
-import { papersAtom } from '../atoms/Atoms';
+import { fetchAllOrders } from '../services/OrderService';
+import { papersAtom, allOrdersAtom } from '../atoms/Atoms';
 import '../index.css'; // Import the CSS file
 
 const AdminPage: React.FC = () => {
     const [papers, setPapers] = useAtom(papersAtom);
+    const [allOrders, setAllOrders] = useAtom(allOrdersAtom);
 
     useEffect(() => {
         const getPapers = async () => {
@@ -21,8 +23,18 @@ const AdminPage: React.FC = () => {
             }
         };
 
+        const getAllOrders = async () => {
+            try {
+                const data = await fetchAllOrders();
+                setAllOrders(data);
+            } catch (error) {
+                console.error('Error fetching orders:', error);
+            }
+        };
+
         getPapers();
-    }, [setPapers]);
+        getAllOrders();
+    }, [setPapers, setAllOrders]);
 
     return (
         <div>
@@ -32,6 +44,17 @@ const AdminPage: React.FC = () => {
                 {papers.map((paper: any) => (
                     <li key={paper.id}>
                         <Link to={`/paper/${paper.id}`}>{paper.name}</Link>
+                    </li>
+                ))}
+            </ul>
+            <h1>Order History</h1>
+            <ul>
+                {allOrders.map((order: any) => (
+                    <li key={order.id}>
+                        <p>Order Date: {order.orderDate}</p>
+                        <p>Customer ID: {order.customerId}</p>
+                        <p>Status: {order.status}</p>
+                        <p>Total Amount: ${order.totalAmount}</p>
                     </li>
                 ))}
             </ul>
