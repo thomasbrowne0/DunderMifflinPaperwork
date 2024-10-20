@@ -162,7 +162,7 @@ const CustomerDetailPage: React.FC = () => {
             <h2>Basket</h2>
             <ul>
                 {basket.map((paper, index) => (
-                    <li key={index}>{paper.name} (x{paper.quantity})</li>
+                    <li key={paper.id}>{paper.name} (x{paper.quantity})</li>
                 ))}
             </ul>
             <p>Total Amount: ${totalAmount.toFixed(2)}</p>
