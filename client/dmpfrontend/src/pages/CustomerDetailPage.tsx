@@ -1,4 +1,4 @@
-﻿import React, { useEffect } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import { customersAtom, papersAtom, ordersAtom, basketAtom, totalAmountAtom, quantitiesAtom } from '../atoms/Atoms';
@@ -16,6 +16,10 @@ const CustomerDetailPage: React.FC = () => {
     const [totalAmount, setTotalAmount] = useAtom(totalAmountAtom);
     const [quantities, setQuantities] = useAtom(quantitiesAtom);
     const customer = customers.find((customer: any) => customer.id === parseInt(id || '', 10));
+
+    const [filter, setFilter] = useState('');
+    const [order, setOrder] = useState('name');
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
         const getOrders = async () => {
@@ -84,6 +88,18 @@ const CustomerDetailPage: React.FC = () => {
         }
     };
 
+    const filteredPapers = papers
+        .filter(paper => paper.name.toLowerCase().includes(search.toLowerCase()))
+        .filter(paper => filter === '' || paper.category === filter)
+        .sort((a, b) => {
+            if (order === 'name') {
+                return a.name.localeCompare(b.name);
+            } else if (order === 'price') {
+                return a.price - b.price;
+            }
+            return 0;
+        });
+
     if (!customer) {
         return <div>Customer not found</div>;
     }
@@ -111,8 +127,25 @@ const CustomerDetailPage: React.FC = () => {
                 <p>No orders found for this customer.</p>
             )}
             <DropdownMenu title="View Papers" className="darker-dropdown">
+                <div>
+                    <input
+                        type="text"
+                        placeholder="Search..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                    <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+                        <option value="">All</option>
+                        <option value="category1">Category 1</option>
+                        <option value="category2">Category 2</option>
+                    </select>
+                    <select value={order} onChange={(e) => setOrder(e.target.value)}>
+                        <option value="name">Name</option>
+                        <option value="price">Price</option>
+                    </select>
+                </div>
                 <ul>
-                    {papers.map((paper: any) => (
+                    {filteredPapers.map((paper: any) => (
                         <li key={paper.id}>
                             {paper.name}
                             <input
