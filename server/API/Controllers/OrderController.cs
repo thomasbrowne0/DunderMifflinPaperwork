@@ -16,7 +16,7 @@ public class OrderController(DunderMifflinContext context) : ControllerBase
     {
         return await context.Orders.ToListAsync();
     }
-    
+
     // Get Order by ID
     [HttpGet("{id}")]
     public async Task<ActionResult<Order>> GetOrder(int id)
@@ -30,17 +30,17 @@ public class OrderController(DunderMifflinContext context) : ControllerBase
 
         return order;
     }
-    
+
     // Create a new Order with multiple OrderEntries
-    // [HttpPost]
-    // public async Task<ActionResult<Order>> CreateOrder(Order order)
-    // {
-    //     context.Orders.Add(order);
-    //     await context.SaveChangesAsync();
-    //
-    //     return CreatedAtAction(nameof(GetOrder), new { id = order.Id }, order);
-    // }
-    
+    [HttpPost]
+    public async Task<ActionResult<Order>> CreateOrder(Order order)
+    {
+        context.Orders.Add(order);
+        await context.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(GetOrder), new { id = order.Id }, order);
+    }
+
     // View Order history of a Customer
     [HttpGet("customer/{id}")]
     public async Task<ActionResult<IEnumerable<GetCustomerOrdersDTO>>> GetCustomerOrders(int id)
@@ -65,7 +65,7 @@ public class OrderController(DunderMifflinContext context) : ControllerBase
 
         return orders;
     }
-    
+
     [HttpGet("history")]
     public async Task<ActionResult<IEnumerable<GetCustomerOrdersDTO>>> GetOrderHistory()
     {
@@ -93,7 +93,7 @@ public class OrderController(DunderMifflinContext context) : ControllerBase
             return StatusCode(500, "An error occurred while fetching the order history.");
         }
     }
-    
+
     // Update Order status
     [HttpPut("{id}/status")]
     public async Task<IActionResult> UpdateOrderStatus(int id)
